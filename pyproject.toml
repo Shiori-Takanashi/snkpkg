@@ -1,10 +1,10 @@
 [project]
 name = "snkpkg"
 version = "0.1.0"
-description = "Add your description here"
+description = "PyPIのためのテンプレート"
 readme = "README.md"
 authors = [
-    { name = "Takanashi", email = "nao69alter@gmail.com" }
+    { name = "Shiori-Takanashi", email = "nao69alter@gmail.com" }
 ]
 requires-python = ">=3.14"
 dependencies = []
