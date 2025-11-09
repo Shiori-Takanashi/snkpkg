@@ -1,5 +1,6 @@
-from snkpkg.hello import hello
 import argparse
+
+from snkpkg.hello import hello
 
 
 def main() -> None:

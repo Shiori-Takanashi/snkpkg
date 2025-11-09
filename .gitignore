@@ -10,6 +10,19 @@ wheels/
 .venv
 .mypy_cache
 .pytest_cache
+.ruff_cache
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
 
 # tmp
 Dockerfile

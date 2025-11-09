@@ -7,9 +7,14 @@ authors = [
     { name = "Takanashi", email = "nao69alter@gmail.com" }
 ]
 requires-python = ">=3.14"
-dependencies = [
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
     "mypy>=1.18.2",
     "pytest>=8.4.2",
+    "ruff>=0.8.0",
+    "pytest-cov>=6.0.0",
 ]
 
 [project.scripts]
@@ -24,3 +29,59 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.ruff]
+# Python 3.14対応
+target-version = "py314"
+
+# ソースディレクトリの指定
+src = ["src", "tests"]
+
+# 行の長さ制限
+line-length = 88
+
+[tool.ruff.lint]
+# 有効にするルールセット
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+]
+
+# 無視するルール
+ignore = []
+
+[tool.ruff.format]
+# クォートの種類
+quote-style = "double"
+
+# インデント
+indent-style = "space"
+
+# 末尾のコンマ
+skip-magic-trailing-comma = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--verbose",
+]
+markers = [
+    "slow: marks tests as slow",
+    "integration: marks tests as integration tests",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.18.2",
+    "pytest-cov>=7.0.0",
+    "ruff>=0.14.4",
+]
