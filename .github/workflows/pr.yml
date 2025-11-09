@@ -18,9 +18,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Debug event payload
-        run: echo "${{ toJson(github.event) }}"
-
       - name: Create PR (develop → master)
         if: github.event.workflow_run.head_branch == 'develop'
         uses: peter-evans/create-pull-request@v6
