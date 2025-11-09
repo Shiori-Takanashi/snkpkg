@@ -87,7 +87,7 @@ dev = [
 ]
 
 [tool.uv]
-trusted-publishing = "never"
+trusted-publishing = "always"
 
 [[tool.uv.index]]
 name = "testpypi"
