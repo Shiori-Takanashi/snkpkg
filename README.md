@@ -6,3 +6,4 @@
 - `uv`を使用して構成されています。
 
 # trigger
+# trigger
