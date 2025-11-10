@@ -10,8 +10,23 @@ wheels/
 .venv
 .mypy_cache
 .pytest_cache
+.ruff_cache
+.coverage
+htmlcov/
 
-# tmp
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# docker
 Dockerfile
+
+# only me
 .tree
-pr.yml
+publish.yml
