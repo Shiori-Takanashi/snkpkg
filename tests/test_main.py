@@ -1,6 +1,8 @@
 import sys
-from _pytest.monkeypatch import MonkeyPatch
+
 from _pytest.capture import CaptureFixture
+from _pytest.monkeypatch import MonkeyPatch
+
 from snkpkg.main import main
 
 
