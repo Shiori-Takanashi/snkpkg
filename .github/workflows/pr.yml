@@ -1,0 +1,69 @@
+name: Pull Request (debug)
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'develop' }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+          fetch-depth: 0
+
+      - name: Dump github.event for debug
+        env:
+          EVENT: ${{ toJson(github.event) }}
+        run: |
+          echo "===== github.event ====="
+          echo "$EVENT"
+          echo "========================"
+          # 保存してアーティファクトとして残したい場合は uncomment
+          # echo "$EVENT" > event.json
+          # tar -czf event.tar.gz event.json
+          # gh release upload --clobber ... (別途設定が必要)
+
+      - name: gh version (is gh installed?)
+        run: |
+          if command -v gh >/dev/null 2>&1; then
+            gh --version
+          else
+            echo "gh: not found"
+          fi
+
+      - name: Show environment and token info (sanitized)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "GITHUB_REPOSITORY=${GITHUB_REPOSITORY}"
+          echo "GITHUB_REF=${GITHUB_REF}"
+          # token presence only (do not print token value)
+          if [ -n "$GH_TOKEN" ]; then echo "GH_TOKEN: present"; else echo "GH_TOKEN: missing"; fi
+
+      - name: Ensure develop branch is present
+        run: |
+          git fetch origin develop:develop || git fetch origin develop
+          git branch -a || true
+          git rev-parse --verify develop || true
+
+      - name: Create PR (debug) - try gh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Trying gh pr create (will not fail the job if it errors)..."
+          gh pr create \
+            --head develop \
+            --base master \
+            --title "Auto PR: develop → master (debug)" \
+            --body "Debug run: printing outputs." \
+            --repo "${{ github.repository }}" || echo "gh pr create failed (this is expected for debug)"
