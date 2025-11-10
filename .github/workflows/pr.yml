@@ -18,12 +18,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Create PR (develop → master)
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: develop
-          base: master
-          title: "Auto PR: develop → master"
-          body: "All tests passed. Automatically created after CI success."
+        run: |
+          # GitHub CLIを使用してPRを作成
+          gh pr create \
+            --head develop \
+            --base master \
+            --title "Auto PR: develop → master" \
+            --body "All tests passed. Automatically created after CI success." \
+            --repo ${{ github.repository }} || echo "PR already exists or failed to create"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
